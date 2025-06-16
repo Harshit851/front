@@ -1,0 +1,21 @@
+
+<div class="auth-container">
+  <h1>Sign In</h1>
+  <div *ngIf="authState$ | async as auth">
+    <div *ngIf="auth.error" class="error">{{auth.error}}</div>
+    <div *ngIf="auth.loading" class="loading">Signing in...</div>
+    <form (ngSubmit)="onSignIn()" *ngIf="!auth.loading && !auth.token">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" type="text" [(ngModel)]="username" name="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" [(ngModel)]="password" name="password" required />
+      </div>
+      <button type="submit" [disabled]="!username || !password">Sign In</button>
+    </form>
+    <p *ngIf="auth.token">Signed in as {{auth.user?.username}}</p>
+  </div>
+  <p>Don't have an account? <a routerLink="/signup">Sign Up</a></p>
+</div>

@@ -1,1 +1,69 @@
-<p>cart works!</p>
+<div class="cart-section">
+  <h2>Your Cart</h2>
+  <div *ngIf="cartItems$ | async as cartItems; else emptyCart">
+    <div class="cart-content">
+      <div class="cart-items">
+        <div class="cart-card" *ngFor="let item of cartItems">
+          <img [src]="item.image" [alt]="item.title" />
+          <div class="item-info">
+            <h3>{{ item.title }}</h3>
+            <!-- Only show description if it exists -->
+            <p *ngIf="item.description">{{ item.description }}</p>
+          </div>
+          <div class="item-qty-price">
+            <div class="price">{{ item.price | currency }}</div>
+            <div class="qty-controls">
+              <!-- Disable decrement if quantity is 1 -->
+              <button 
+                type="button"
+                (click)="decrementQty(item)"
+                [disabled]="item.quantity <= 1"
+                aria-label="Decrease quantity"
+              >-</button>
+              <input 
+                type="number" 
+                [value]="item.quantity" 
+                min="1" 
+                readonly 
+                aria-label="Quantity"
+              />
+              <button 
+                type="button"
+                (click)="incrementQty(item)"
+                aria-label="Increase quantity"
+              >+</button>
+            </div>
+          </div>
+          <button 
+            class="remove-btn" 
+            type="button"
+            (click)="removeItem(item)" 
+            title="Remove"
+            aria-label="Remove item"
+          >&times;</button>
+        </div>
+      </div>
+      <div class="cart-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>{{ calculateSubtotal(cartItems) | currency }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>{{ shipping | currency }}</span>
+        </div>
+        <div class="total">
+          Total: {{ calculateTotal(cartItems) | currency }}
+        </div>
+        <button class="checkout-btn" type="button" (click)="checkout()">Checkout</button>
+      </div>
+    </div>
+  </div>
+  <ng-template #emptyCart>
+    <div class="empty-cart">
+      <img src="assets/empty-cart.svg" alt="Empty Cart" />
+      <p>Your cart is empty. <a routerLink="/products">Go shopping</a></p>
+    </div>
+  </ng-template>
+</div>

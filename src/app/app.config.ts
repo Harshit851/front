@@ -1,8 +1,35 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { HomeComponent } from './home/home.component';
+import { CartComponent } from './cart/cart.component';
+import { ProductsComponent } from './products/products.component';
+import { SignInComponent } from './signin/signin.component';
+import { SignUpComponent } from './signup/signup.component';
+import { productsReducer } from './state/products.reducer';
+import { cartReducer } from './state/cart.reducer';
+import { authReducer } from './state/auth.reducer';
+import { ProductsEffects } from './state/products.effects';
+import { AuthEffects } from './state/auth.effects';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+  providers: [
+    provideRouter([
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
+      { path: 'products', component: ProductsComponent },
+      { path: 'cart', component: CartComponent },
+      { path: 'signin', component: SignInComponent },
+      { path: 'signup', component: SignUpComponent },
+      { path: '**', component: PageNotFoundComponent }
+    ]),
+    provideHttpClient(),
+    provideStore({ products: productsReducer, cart: cartReducer, auth: authReducer }),
+    provideEffects([ProductsEffects, AuthEffects]),
+    provideStoreDevtools({ maxAge: 25, logOnly: false })
+  ]
 };

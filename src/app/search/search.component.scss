@@ -1,0 +1,25 @@
+.search-bar {
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 200px;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #2980b9;
+    }
+  }
+}

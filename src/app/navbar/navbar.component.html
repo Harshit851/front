@@ -1,1 +1,15 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <a routerLink="/home">Home</a>
+  <a routerLink="/products">Products</a>
+  <a routerLink="/cart">Cart</a>
+
+  <ng-container *ngIf="username$ | async as username; else guestLinks">
+    <span>Welcome, {{ username }}</span>
+    <button (click)="onLogout()">Logout</button>
+  </ng-container>
+
+  <ng-template #guestLinks>
+    <a routerLink="/signin">Sign In</a>
+    <a routerLink="/signup">Sign Up</a>
+  </ng-template>
+</nav>
