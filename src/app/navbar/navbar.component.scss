@@ -63,3 +63,22 @@
     }
   }
 }
+
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  .cart-count {
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.2rem 0.5rem;
+    border-radius: 99px;
+    margin-left: 6px;
+    line-height: 1;
+    min-width: 15px;
+    text-align: center;
+  }
+}
