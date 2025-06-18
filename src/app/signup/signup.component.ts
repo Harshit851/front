@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { signUp } from '../state/auth.actions';
-import { selectAuthState } from '../state/auth.selectors';
-import { AppState, AuthState } from '../state/app.state';
+import { AppState } from '../state/app.state';
+import { selectAuthError, selectAuthLoading, selectAuthState } from '../state/auth.selectors';
 
 @Component({
   selector: 'app-signup',
@@ -16,14 +16,21 @@ import { AppState, AuthState } from '../state/app.state';
   styleUrl: './signup.component.scss'
 })
 export class SignUpComponent {
-  authState$: Observable<AuthState>;
-  user = { email: '', username: '', password: '' };
+  name: string = '';
+  email: string = '';
+  password: string = '';
+
+  error$: Observable<string | null>;
+  loading$: Observable<boolean>;
+  user$: Observable<any>;
 
   constructor(private store: Store<AppState>) {
-    this.authState$ = this.store.select(selectAuthState);
+    this.error$ = this.store.select(selectAuthError);
+    this.loading$ = this.store.select(selectAuthLoading);
+    this.user$ = this.store.select(selectAuthState).pipe(map(state => state.user));
   }
 
   onSignUp() {
-    this.store.dispatch(signUp({ user: this.user }));
+    this.store.dispatch(signUp({ user: { name: this.name, email: this.email, password: this.password } }));
   }
 }

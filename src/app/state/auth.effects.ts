@@ -2,7 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+
 import {
   signIn,
   signInSuccess,
@@ -12,63 +13,78 @@ import {
   signUpFailure,
   logout
 } from './auth.actions';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthEffects {
   private actions$ = inject(Actions);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
-  // Effect for sign in
+  // 🔐 Login Effect
   signIn$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signIn),
-      mergeMap(({ username, password }) => {
-        const usersJson = localStorage.getItem('users');
-        const users = usersJson ? JSON.parse(usersJson) : [];
-        const user = users.find((u: any) => u.username === username && u.password === password);
+      mergeMap(({ email, password }) =>
+        this.authService.login({ email, password }).pipe(
+          map((res) => {
+            // Store token and user in localStorage
+            localStorage.setItem('token', res.token);
+            localStorage.setItem('currentUser', JSON.stringify(res));
 
-        if (user) {
-          localStorage.setItem('token', 'dummy-token');
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          return of(signInSuccess({ token: 'dummy-token', user: { username } }));
-        } else {
-          return of(signInFailure({ error: 'Invalid credentials' }));
-        }
-      })
+            // Debug log
+            console.log('Login response:', res);
+
+            return signInSuccess({
+              token: res.token,
+              user: {
+                email: res.email,
+                username: res.username,
+                role: res.role // ✅ Ensure backend sends this
+              }
+            });
+          }),
+          catchError((err) =>
+            of(signInFailure({ error: err.error?.message || 'Login failed' }))
+          )
+        )
+      )
     )
   );
 
-  // Redirect to home on successful sign in
+  // ✅ Redirect based on role after login
   redirectAfterSignIn$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(signInSuccess),
-        tap(() => {
-          this.router.navigate(['/home']);
+        tap(({ user }) => {
+          console.log('Redirecting based on role:', user.role);
+          if (user.role === 'admin') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/home']);
+          }
         })
       ),
     { dispatch: false }
   );
 
-  // Effect for sign up
+  // 🆕 Sign Up Effect
   signUp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signUp),
-      mergeMap(({ user }) => {
-        const usersJson = localStorage.getItem('users');
-        const users = usersJson ? JSON.parse(usersJson) : [];
-        const existing = users.find((u: any) => u.username === user.username);
-        if (existing) {
-          return of(signUpFailure({ error: 'Username already exists' }));
-        }
-        users.push(user);
-        localStorage.setItem('users', JSON.stringify(users));
-        return of(signUpSuccess({ user }));
-      })
+      mergeMap(({ user }) =>
+        this.authService.register(user).pipe(
+          map(() => signUpSuccess({ user })),
+          catchError((err) =>
+            of(signUpFailure({ error: err.error?.message || 'Signup failed' }))
+          )
+        )
+      )
     )
   );
 
-  // Effect for logout
+  // 🚪 Logout Effect
   logout$ = createEffect(
     () =>
       this.actions$.pipe(

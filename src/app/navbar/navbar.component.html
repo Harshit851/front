@@ -1,15 +1,19 @@
 <nav class="navbar">
-  <a routerLink="/home">Home</a>
-  <a routerLink="/products">Products</a>
-  <a routerLink="/cart">Cart</a>
+  <a routerLink="/" class="logo-link">
+    <img src="assets/favicon.ico" alt="Company Logo" class="logo" />
+  </a>
 
-  <ng-container *ngIf="username$ | async as username; else guestLinks">
-    <span>Welcome, {{ username }}</span>
-    <button (click)="onLogout()">Logout</button>
-  </ng-container>
-
-  <ng-template #guestLinks>
-    <a routerLink="/signin">Sign In</a>
-    <a routerLink="/signup">Sign Up</a>
-  </ng-template>
+  <div class="nav-links">
+    <a routerLink="/home">Home</a>
+    <a routerLink="/products">Products</a>
+    <a routerLink="/cart">Cart</a>
+    <ng-container *ngIf="user$ | async as user; else guestLinks">
+      <a *ngIf="user.role === 'admin'" routerLink="/admin">Admin</a>
+      <button (click)="onLogout()">Logout</button>
+    </ng-container>
+    <ng-template #guestLinks>
+      <a routerLink="/signin">Sign In</a>
+      <a routerLink="/signup">Sign Up</a>
+    </ng-template>
+  </div>
 </nav>

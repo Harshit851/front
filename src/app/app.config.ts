@@ -15,7 +15,7 @@ import { authReducer } from './state/auth.reducer';
 import { ProductsEffects } from './state/products.effects';
 import { AuthEffects } from './state/auth.effects';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter([
@@ -23,6 +23,7 @@ export const appConfig: ApplicationConfig = {
       { path: 'home', component: HomeComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'cart', component: CartComponent },
+      { path: 'admin', component: AdminDashboardComponent },
       { path: 'signin', component: SignInComponent },
       { path: 'signup', component: SignUpComponent },
       { path: '**', component: PageNotFoundComponent }

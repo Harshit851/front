@@ -1,0 +1,28 @@
+<div class="admin-panel">
+  <h1>Admin Dashboard</h1>
+  <p>Manage products, view users, and more.</p>
+
+  <div *ngIf="user$ | async as user">
+    <div class="role-info" *ngIf="user.role === 'admin'">
+      👑 Admin Access
+    </div>
+    <div class="role-info" *ngIf="user.role !== 'admin'">
+      👤 Regular User
+    </div>
+  </div>
+
+  <div class="admin-actions">
+    <div class="card">
+      <h3>Manage Products</h3>
+      <p>Add, update, or remove products from inventory.</p>
+    </div>
+    <div class="card">
+      <h3>View Users</h3>
+      <p>Check registered users and their activity.</p>
+    </div>
+    <div class="card">
+      <h3>Analytics</h3>
+      <p>Monitor sales, trends, and reports.</p>
+    </div>
+  </div>
+</div>

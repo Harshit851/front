@@ -1,72 +1,65 @@
 .navbar {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
-  gap: 1.5rem;
+  justify-content: space-between;
+  background-color: #1e293b;
+  color: #f8fafc;
   padding: 1rem 2rem;
-  background-color: #1e293b; // dark slate blue
-  color:  #f8fafc; // light text
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
-  a {
-    color: #f8fafc;
+  .logo-link {
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    font-size: 1rem;
-    position: relative;
-    transition: color 0.3s ease;
+  }
 
-    &::after {
-      content: '';
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      bottom: -4px;
-      left: 0;
-      background-color: #3b82f6;
-      transition: width 0.3s ease;
+  .logo {
+    height: 40px;
+    width: auto;
+    margin-right: 1rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+
+    a {
+      color: #f8fafc;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #3b82f6;
+      }
     }
 
-    &:hover {
-      color: #3b82f6;
+    button {
+      background: transparent;
+      border: 1px solid #94a3b8;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      color: #f8fafc;
+      cursor: pointer;
 
-      &::after {
-        width: 100%;
+      &:hover {
+        background-color: #3b82f6;
+        border-color: #3b82f6;
       }
     }
   }
 
-  span {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #cbd5e1; // muted light gray
-  }
-
-  button {
-    background-color: transparent;
-    border: 1px solid #94a3b8;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    color: #f8fafc;
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-
-    &:hover {
-      background-color: #3b82f6;
-      border-color: #3b82f6;
-    }
-  }
-
-  // Responsive: Stack links on small screens
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
 
-    a, button, span {
+    .nav-links {
+      flex-direction: column;
       width: 100%;
+      gap: 1rem;
+      margin-top: 1rem;
     }
   }
 }

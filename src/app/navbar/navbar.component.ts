@@ -1,22 +1,24 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppState } from '../state/app.state';
 import { logout } from '../state/auth.actions';
-import { selectCurrentUser } from '../state/auth.selectors';
+import { RouterModule } from '@angular/router';
+import { selectUser } from '../state/auth.selectors';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [RouterModule, CommonModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  username$;
+  user$: Observable<{ email?: string; username?: string; role?: string } | null>;
 
-  constructor(private store: Store) {
-    this.username$ = this.store.select(selectCurrentUser);
+  constructor(private store: Store<AppState>) {
+    this.user$ = this.store.select(selectUser);
   }
 
   onLogout() {

@@ -1,5 +1,6 @@
 .products {
   padding: 2rem;
+   background: linear-gradient(180deg, #1d4fd845 0%, #a70f0f2b 100%);
 
   h1 {
     text-align: center;
@@ -28,6 +29,7 @@
 
     .product-card {
       display: flex;
+      background: linear-gradient(180deg, #1d4fd842 0%, #a70f0f24 100%);
       flex-direction: column;
       align-items: center;
       width: 220px;

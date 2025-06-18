@@ -17,7 +17,7 @@ import { AppState, AuthState } from '../state/app.state';
 })
 export class SignInComponent {
   authState$: Observable<AuthState>;
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(private store: Store<AppState>) {
@@ -25,6 +25,6 @@ export class SignInComponent {
   }
 
   onSignIn() {
-    this.store.dispatch(signIn({ username: this.username, password: this.password }));
+    this.store.dispatch(signIn({ email: this.email, password: this.password }));
   }
 }

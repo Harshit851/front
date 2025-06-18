@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { RouterLink } from '@angular/router';
 import { selectCartItems } from '../state/cart.selectors';
 import { AppState, Product } from '../state/app.state';
 import { incrementQty, decrementQty, removeFromCart } from '../state/cart.actions';
@@ -14,7 +15,7 @@ export interface CartItem extends Product {
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })

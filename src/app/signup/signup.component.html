@@ -1,24 +1,67 @@
 <div class="auth-container">
   <h1>Sign Up</h1>
-  <div *ngIf="authState$ | async as auth">
-    <div *ngIf="auth.error" class="error">{{auth.error}}</div>
-    <div *ngIf="auth.loading" class="loading">Signing up...</div>
-    <form (ngSubmit)="onSignUp()" *ngIf="!auth.loading && !auth.user">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input id="email" type="email" [(ngModel)]="user.email" name="email" required />
-      </div>
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input id="username" type="text" [(ngModel)]="user.username" name="username" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" type="password" [(ngModel)]="user.password" name="password" required />
-      </div>
-      <button type="submit" [disabled]="!user.email || !user.username || !user.password">Sign Up</button>
-    </form>
-    <p *ngIf="auth.user">Signed up as {{auth.user?.username}}</p>
+
+  <!-- Show error message -->
+  <div *ngIf="error$ | async as error" class="error">
+    {{ error }}
   </div>
-  <p>Already have an account? <a routerLink="/signin">Sign In</a></p>
+
+  <!-- Show loading message -->
+  <div *ngIf="loading$ | async" class="loading">
+    Signing up...
+  </div>
+
+  <!-- Signup form only if not loading and not already signed in -->
+  <form (ngSubmit)="onSignUp()" *ngIf="!(loading$ | async) && !(user$ | async)">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        type="text"
+        [(ngModel)]="name"
+        name="name"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="!email || !name || !password"
+    >
+      Sign Up
+    </button>
+  </form>
+
+  <!-- Confirmation message after signup -->
+  <p *ngIf="user$ | async as user">
+    Signed up as {{ user.name }}
+  </p>
+
+  <p>
+    Already have an account?
+    <a routerLink="/signin">Sign In</a>
+  </p>
 </div>
+

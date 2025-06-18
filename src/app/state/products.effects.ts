@@ -14,7 +14,8 @@ export class ProductsEffects {
     this.actions$.pipe(
       ofType(loadProducts),
       mergeMap(() =>
-        this.http.get<any[]>('https://fakestoreapi.com/products').pipe(
+        this.http.get<any[]>('/api/products').pipe(
+
           map(data =>
             loadProductsSuccess({
               products: data.map(item => ({

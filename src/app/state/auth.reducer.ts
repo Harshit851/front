@@ -1,10 +1,7 @@
+// src/app/state/auth.reducer.ts
 import { createReducer, on } from '@ngrx/store';
-import {
-  signIn, signInSuccess, signInFailure,
-  signUp, signUpSuccess, signUpFailure,
-  logout // <-- Add this import
-} from './auth.actions';
 import { AuthState } from './app.state';
+import { signIn, signInSuccess, signInFailure, logout } from './auth.actions';
 
 export const initialState: AuthState = {
   token: null,
@@ -15,17 +12,22 @@ export const initialState: AuthState = {
 
 export const authReducer = createReducer(
   initialState,
-  on(signIn, state => ({ ...state, loading: true, error: null })),
-  on(signInSuccess, (state, { token, user }) => ({ ...state, token, user, loading: false })),
-  on(signInFailure, (state, { error }) => ({ ...state, error, loading: false })),
-  on(signUp, state => ({ ...state, loading: true, error: null })),
-  on(signUpSuccess, (state, { user }) => ({ ...state, user, loading: false })),
-  on(signUpFailure, (state, { error }) => ({ ...state, error, loading: false })),
-  on(logout, state => ({
+
+  on(signIn, (state) => ({ ...state, loading: true })),
+  
+  on(signInSuccess, (state, { token, user }) => ({
     ...state,
-    user: null,
-    token: null,
+    token,
+    user, // <-- ✅ must include full user object with `role`
     error: null,
     loading: false
-  }))
+  })),
+
+  on(signInFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false
+  })),
+
+  on(logout, () => initialState)
 );

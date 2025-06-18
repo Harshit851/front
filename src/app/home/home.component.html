@@ -3,3 +3,45 @@
   <p>Discover our wide range of products and start shopping today!</p>
   <a routerLink="/products" class="shop-now">Shop Now</a>
 </div>
+
+<div class="carousel-section">
+  <h2>Featured Products</h2>
+  <div class="carousel-container">
+    <button class="nav prev" (click)="prevSlide()">‹</button>
+    <div class="carousel-track">
+      <div
+        class="carousel-item"
+        *ngFor="let product of featuredProducts; let i = index"
+        [class.active]="i === currentIndex"
+        [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
+      >
+        <img [src]="product.image" alt="{{ product.title }}" />
+        <h3>{{ product.title }}</h3>
+        <p>₹{{ product.price }}</p>
+      </div>
+    </div>
+    <button class="nav next" (click)="nextSlide()">›</button>
+  </div>
+</div>
+
+
+<div class="features">
+  <h2>Why Shop With Us</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="Shipping">
+      <h3>Free Shipping</h3>
+      <p>Enjoy fast and free shipping on all orders over ₹500.</p>
+    </div>
+    <div class="feature-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/929/929426.png" alt="Support">
+      <h3>24/7 Support</h3>
+      <p>Need help? Our team is available round-the-clock for assistance.</p>
+    </div>
+    <div class="feature-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/3103/3103446.png" alt="Secure Payment">
+      <h3>Secure Payment</h3>
+      <p>Shop with confidence using our encrypted payment gateway.</p>
+    </div>
+  </div>
+</div>
