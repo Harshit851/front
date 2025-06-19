@@ -3,7 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { loadProducts, loadProductsSuccess, loadProductsFailure } from './products.actions';
+import {
+  loadProducts,
+  loadProductsSuccess,
+  loadProductsFailure
+} from './products.actions';
 
 @Injectable()
 export class ProductsEffects {
@@ -13,20 +17,25 @@ export class ProductsEffects {
   loadProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadProducts),
-      mergeMap(() =>
-        this.http.get<any[]>('/api/products').pipe(
+      mergeMap(({ page }) =>
+        this.http.get<any>(`/api/products?page=${page}&limit=10`).pipe(
 
-          map(data =>
+          map(response =>
             loadProductsSuccess({
-              products: data.map(item => ({
+              products: response.products.map((item: any) => ({
                 id: item.id,
                 title: item.title,
                 price: item.price,
                 image: item.image
-              }))
+              })),
+              currentPage: response.currentPage,
+              totalPages: response.totalPages
             })
           ),
-          catchError(() => of(loadProductsFailure({ error: 'Failed to load products' })))
+
+          catchError(() =>
+            of(loadProductsFailure({ error: 'Failed to load products' }))
+          )
         )
       )
     )

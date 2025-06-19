@@ -1,4 +1,3 @@
-
 export interface Product {
   id: number;
   title: string;
@@ -18,8 +17,15 @@ export interface AuthState {
   loading: boolean;
 }
 
-export interface AppState {
+// ✅ Add this: ProductsState to match reducer
+export interface ProductsState {
   products: Product[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface AppState {
+  products: ProductsState; // ✅ Was Product[], now full object
   cart: CartItem[];
   auth: AuthState;
 }

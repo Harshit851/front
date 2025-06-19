@@ -1,5 +1,5 @@
 // src/app/cart/cart.component.ts
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,16 +15,25 @@ export interface CartItem extends Product {
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   cartItems$: Observable<CartItem[]>;
   shipping = 4.99;
+  userEmail: string = '';
 
   constructor(private store: Store<AppState>) {
     this.cartItems$ = this.store.select(selectCartItems);
+  }
+
+  ngOnInit(): void {
+    this.store
+      .select(state => state.auth.user?.email)
+      .subscribe(email => {
+        this.userEmail = email || '';
+      });
   }
 
   calculateSubtotal(cartItems: CartItem[]): number {
@@ -36,19 +45,18 @@ export class CartComponent {
   }
 
   incrementQty(item: CartItem) {
-    this.store.dispatch(incrementQty({ productId: item.id }));
+    this.store.dispatch(incrementQty({ productId: item.id, userEmail: this.userEmail }));
   }
 
   decrementQty(item: CartItem) {
-    this.store.dispatch(decrementQty({ productId: item.id }));
+    this.store.dispatch(decrementQty({ productId: item.id, userEmail: this.userEmail }));
   }
 
   removeItem(item: CartItem) {
-    this.store.dispatch(removeFromCart({ productId: item.id }));
+    this.store.dispatch(removeFromCart({ productId: item.id, userEmail: this.userEmail }));
   }
 
   checkout() {
-    // Implement checkout logic here
     alert('Proceeding to checkout!');
   }
 }

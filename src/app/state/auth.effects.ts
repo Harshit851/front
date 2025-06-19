@@ -1,9 +1,9 @@
+// src/app/state/auth.effects.ts
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-
 import {
   signIn,
   signInSuccess,
@@ -11,8 +11,10 @@ import {
   signUp,
   signUpSuccess,
   signUpFailure,
-  logout
+  logout,
+  loadUserFromStorage
 } from './auth.actions';
+import { loadCartFromStorage } from './cart.actions'; // ✅ new import
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -27,22 +29,24 @@ export class AuthEffects {
       ofType(signIn),
       mergeMap(({ email, password }) =>
         this.authService.login({ email, password }).pipe(
-          map((res) => {
-            // Store token and user in localStorage
+          mergeMap((res) => {
             localStorage.setItem('token', res.token);
             localStorage.setItem('currentUser', JSON.stringify(res));
 
-            // Debug log
-            console.log('Login response:', res);
+            const savedCart = localStorage.getItem(`cart_${res.email}`);
+            const cartItems = savedCart ? JSON.parse(savedCart) : [];
 
-            return signInSuccess({
-              token: res.token,
-              user: {
-                email: res.email,
-                username: res.username,
-                role: res.role // ✅ Ensure backend sends this
-              }
-            });
+            return [
+              signInSuccess({
+                token: res.token,
+                user: {
+                  email: res.email,
+                  username: res.name,
+                  role: res.role || 'user'
+                }
+              }),
+              loadCartFromStorage({ items: cartItems }) // ✅ load cart for user
+            ];
           }),
           catchError((err) =>
             of(signInFailure({ error: err.error?.message || 'Login failed' }))
@@ -52,13 +56,12 @@ export class AuthEffects {
     )
   );
 
-  // ✅ Redirect based on role after login
+  // ✅ Redirect After Login (based on user role)
   redirectAfterSignIn$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(signInSuccess),
         tap(({ user }) => {
-          console.log('Redirecting based on role:', user.role);
           if (user.role === 'admin') {
             this.router.navigate(['/admin']);
           } else {
@@ -69,13 +72,31 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  // 🆕 Sign Up Effect
+  // 🆕 Sign Up Effect → Auto login on success
   signUp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signUp),
       mergeMap(({ user }) =>
         this.authService.register(user).pipe(
-          map(() => signUpSuccess({ user })),
+          mergeMap((res) => {
+            localStorage.setItem('token', res.token);
+            localStorage.setItem('currentUser', JSON.stringify(res));
+
+            const savedCart = localStorage.getItem(`cart_${res.email}`);
+            const cartItems = savedCart ? JSON.parse(savedCart) : [];
+
+            return [
+              signInSuccess({
+                token: res.token,
+                user: {
+                  email: res.email,
+                  username: res.name,
+                  role: res.role || 'user'
+                }
+              }),
+              loadCartFromStorage({ items: cartItems }) // ✅ load cart for user
+            ];
+          }),
           catchError((err) =>
             of(signUpFailure({ error: err.error?.message || 'Signup failed' }))
           )
@@ -96,5 +117,23 @@ export class AuthEffects {
         })
       ),
     { dispatch: false }
+  );
+
+  // 🔁 Auto Login Effect (on app reload)
+  autoLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadUserFromStorage),
+      map(() => {
+        const userJson = localStorage.getItem('currentUser');
+        const token = localStorage.getItem('token');
+
+        if (userJson && token) {
+          const user = JSON.parse(userJson);
+          return signInSuccess({ token, user });
+        } else {
+          return logout();
+        }
+      })
+    )
   );
 }

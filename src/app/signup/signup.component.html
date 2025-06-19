@@ -1,67 +1,76 @@
 <div class="auth-container">
-  <h1>Sign Up</h1>
+  <h1>📝 Sign Up</h1>
 
   <!-- Show error message -->
-  <div *ngIf="error$ | async as error" class="error">
-    {{ error }}
+  <div *ngIf="error$ | async as error" class="error-message">
+    ⚠️ {{ error }}
   </div>
 
-  <!-- Show loading message -->
-  <div *ngIf="loading$ | async" class="loading">
-    Signing up...
+  <!-- Show loading state -->
+  <div *ngIf="loading$ | async" class="loading-message">
+    ⏳ Creating your account...
   </div>
 
-  <!-- Signup form only if not loading and not already signed in -->
-  <form (ngSubmit)="onSignUp()" *ngIf="!(loading$ | async) && !(user$ | async)">
+  <!-- Signup form -->
+  <form
+    *ngIf="!(loading$ | async) && !(user$ | async)"
+    (ngSubmit)="onSignUp()"
+    class="signup-form"
+    autocomplete="on"
+  >
     <div class="form-group">
-      <label for="name">Name</label>
+      <label for="name">👤 Name</label>
       <input
         id="name"
         type="text"
-        [(ngModel)]="name"
         name="name"
+        [(ngModel)]="name"
         required
+        placeholder="Enter your full name"
       />
     </div>
 
     <div class="form-group">
-      <label for="email">Email</label>
+      <label for="email">📧 Email</label>
       <input
         id="email"
         type="email"
-        [(ngModel)]="email"
         name="email"
+        [(ngModel)]="email"
         required
+        placeholder="Enter your email address"
       />
     </div>
 
     <div class="form-group">
-      <label for="password">Password</label>
+      <label for="password">🔒 Password</label>
       <input
         id="password"
         type="password"
-        [(ngModel)]="password"
         name="password"
+        [(ngModel)]="password"
         required
+        minlength="6"
+        placeholder="Create a password"
       />
     </div>
 
     <button
       type="submit"
-      [disabled]="!email || !name || !password"
+      [disabled]="!name || !email || !password"
     >
-      Sign Up
+      🚀 Sign Up
     </button>
   </form>
 
-  <!-- Confirmation message after signup -->
-  <p *ngIf="user$ | async as user">
-    Signed up as {{ user.name }}
-  </p>
+  <!-- Success message after signup -->
+  <div *ngIf="user$ | async as user" class="success-message">
+    ✅ Signed up as <strong>{{ user.name }}</strong>! You can now <a routerLink="/signin">Sign In</a>.
+  </div>
 
-  <p>
+  <!-- Redirect to signin -->
+  <p class="redirect-link">
     Already have an account?
     <a routerLink="/signin">Sign In</a>
   </p>
 </div>
-

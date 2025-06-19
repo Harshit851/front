@@ -10,6 +10,7 @@ import { selectProducts } from '../state/products.selectors';
 import { ProductsEffects } from '../state/products.effects';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppState } from '../state/app.state';
+import { Product } from '../state/app.state';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -17,7 +18,7 @@ describe('ProductsComponent', () => {
   let store: Store<AppState>;
   let dispatchSpy: jasmine.Spy;
 
-  const mockProducts = [
+  const mockProducts: Product[] = [
     { id: 1, title: 'Product 1', price: 10, image: 'img1.jpg' },
     { id: 2, title: 'Product 2', price: 20, image: 'img2.jpg' }
   ];
@@ -35,6 +36,10 @@ describe('ProductsComponent', () => {
             select: jasmine.createSpy('select').and.callFake((selector) => {
               if (selector === selectProducts) {
                 return of(mockProducts);
+              }
+              if (typeof selector === 'function') {
+                // simulate selector for user email
+                return of('test@example.com');
               }
               return of([]);
             })
@@ -55,7 +60,7 @@ describe('ProductsComponent', () => {
   });
 
   it('should dispatch loadProducts action on init', () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(loadProducts());
+    expect(dispatchSpy).toHaveBeenCalledWith(loadProducts({ page: 1 }));
   });
 
   it('should select products from store', (done) => {
@@ -67,7 +72,8 @@ describe('ProductsComponent', () => {
 
   it('should dispatch addToCart action when addToCart is called', () => {
     const product = mockProducts[0];
+    component.userEmail = 'test@example.com';
     component.addToCart(product);
-    expect(dispatchSpy).toHaveBeenCalledWith(addToCart({ product }));
+    expect(dispatchSpy).toHaveBeenCalledWith(addToCart({ product, userEmail: 'test@example.com' }));
   });
 });

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component , OnInit } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
+import { Store } from '@ngrx/store';
+import { loadUserFromStorage } from './state/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +11,10 @@ import { NavbarComponent } from './navbar/navbar.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(loadUserFromStorage());
+  }
+}

@@ -2,8 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #1e293b;
-  color: #f8fafc;
+  background: linear-gradient(200deg, #1d4fd87a 0%, #a70f0f6a 100%);
   padding: 1rem 2rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
@@ -25,7 +24,7 @@
     align-items: center;
 
     a {
-      color: #f8fafc;
+      color: #fff;
       text-decoration: none;
       font-weight: 500;
       position: relative;

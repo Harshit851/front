@@ -18,3 +18,6 @@ export const signUpFailure = createAction('[Auth] Sign Up Failure', props<{ erro
 
 export const logout = createAction('[Auth] Logout');
 
+export const loadUserFromStorage = createAction('[Auth] Load User From Storage');
+
+

@@ -16,14 +16,16 @@ import { ProductsEffects } from './state/products.effects';
 import { AuthEffects } from './state/auth.effects';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AuthGuard } from './state/auth.guard';
+import { AdminGuard } from './state/admin.guard';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter([
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'products', component: ProductsComponent },
-      { path: 'cart', component: CartComponent },
-      { path: 'admin', component: AdminDashboardComponent },
+      { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
+      { path: 'admin', component: AdminDashboardComponent, canActivate: [AdminGuard] },
       { path: 'signin', component: SignInComponent },
       { path: 'signup', component: SignUpComponent },
       { path: '**', component: PageNotFoundComponent }
