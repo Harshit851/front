@@ -1,0 +1,548 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Base Styles */
+body {
+  font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
+  color: #333333;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Intro Section */
+.careers-intro {
+  background: linear-gradient(135deg, #f9fafb, #e0f7f5);
+  text-align: center;
+  padding: 8rem 2rem;
+  margin-bottom: 4rem;
+  min-height: 400px;
+
+  .intro-content {
+    max-width: 900px;
+    margin: 0 auto;
+    opacity: 1; /* Remove animation, show immediately */
+    /* No .visible class animation */
+    h1 {
+      font-family: 'Lato', 'Open Sans', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #1a2a44;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.3rem;
+      color: #555555;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+  }
+}
+
+/* Culture Section */
+.careers-culture {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background: #ffffff;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.visible {
+    opacity: 1;
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+    .culture-grid .culture-card {
+      opacity: 1;
+      animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation-delay: calc(0.2s * var(--card-index, 0));
+    }
+  }
+
+  h2 {
+    font-family: 'Lato', 'Open Sans', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a2a44;
+    margin-bottom: 3rem;
+  }
+
+  .culture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+
+    .culture-card {
+      background: #f9fafb;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(26, 42, 68, 0.1);
+      padding: 2.5rem;
+      transition: transform 0.4s ease;
+      opacity: 0;
+
+      &:hover {
+        transform: translateY(-10px);
+      }
+
+      h3 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #1a2a44;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #666666;
+      }
+    }
+  }
+}
+
+/* Positions Section */
+.careers-positions {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background: #f9fafb;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.visible {
+    opacity: 1;
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+    .positions-grid .position-card {
+      opacity: 1;
+      animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation-delay: calc(0.2s * var(--card-index, 0));
+    }
+  }
+
+  h2 {
+    font-family: 'Lato', 'Open Sans', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a2a44;
+    margin-bottom: 3rem;
+  }
+
+  .positions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+
+    .position-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(26, 42, 68, 0.1);
+      padding: 2.5rem;
+      transition: transform 0.4s ease;
+      opacity: 0;
+
+      &:hover {
+        transform: translateY(-10px);
+      }
+
+      h3 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #1a2a44;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #666666;
+        margin-bottom: 1.5rem;
+      }
+
+      .apply-link {
+        a {
+          color: #00a79d;
+          font-weight: 600;
+          text-decoration: none;
+          border-bottom: 2px solid transparent;
+          transition: color 0.3s ease, border-bottom 0.3s ease;
+
+          &:hover {
+            color: #00877a;
+            border-bottom: 2px solid #00877a;
+          }
+
+          &:focus {
+            outline: 2px solid #00a79d;
+            outline-offset: 2px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Benefits Section */
+.careers-benefits {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background: #ffffff;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.visible {
+    opacity: 1;
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+    .benefits-list .benefit-item {
+      opacity: 1;
+      animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation-delay: calc(0.2s * var(--item-index, 0));
+    }
+  }
+
+  h2 {
+    font-family: 'Lato', 'Open Sans', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a2a44;
+    margin-bottom: 3rem;
+  }
+
+  .benefits-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+
+    .benefit-item {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform 0.4s ease;
+      opacity: 0;
+
+      &:hover {
+        transform: translateY(-8px);
+      }
+
+      p {
+        font-size: 1.2rem;
+        color: #666666;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        span {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+/* Process Section */
+.careers-process {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background: #f9fafb;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.visible {
+    opacity: 1;
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+    .process-grid .process-card {
+      opacity: 1;
+      animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation-delay: calc(0.2s * var(--card-index, 0));
+    }
+  }
+
+  h2 {
+    font-family: 'Lato', 'Open Sans', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a2a44;
+    margin-bottom: 3rem;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+
+    .process-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(26, 42, 68, 0.1);
+      padding: 2rem;
+      transition: transform 0.4s ease;
+      opacity: 0;
+
+      &:hover {
+        transform: translateY(-8px);
+      }
+
+      h3 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #1a2a44;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #666666;
+      }
+    }
+  }
+}
+
+/* Contact Section */
+.careers-contact {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background: #ffffff;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.visible {
+    opacity: 1;
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  h2 {
+    font-family: 'Lato', 'Open Sans', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a2a44;
+    margin-bottom: 3rem;
+  }
+
+  .contact-content {
+    max-width: 600px;
+    margin: 0 auto;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .form-group {
+        text-align: left;
+
+        label {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #1a2a44;
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+
+        input,
+        textarea {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid #e0e6ed;
+          border-radius: 6px;
+          font-size: 1rem;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            border-color: #00a79d;
+            outline: none;
+          }
+        }
+
+        input[type="file"] {
+          padding: 0.5rem 0;
+        }
+
+        textarea {
+          resize: vertical;
+        }
+      }
+
+      button {
+        background: linear-gradient(90deg, #00a79d, #00877a);
+        color: #ffffff;
+        border: none;
+        padding: 1rem;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+
+        &:hover {
+          background: linear-gradient(90deg, #00877a, #006b5f);
+          transform: translateY(-2px);
+        }
+
+        &:focus {
+          outline: 2px solid #1a2a44;
+          outline-offset: 2px;
+        }
+
+        &:disabled {
+          background: #cccccc;
+          cursor: not-allowed;
+          transform: none;
+        }
+      }
+    }
+
+    .submit-message {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #00a79d;
+    }
+  }
+
+  .contact-instructions {
+    p {
+      font-size: 1.1rem;
+      color: #666666;
+      max-width: 600px;
+      margin: 0 auto;
+
+      a {
+        color: #00a79d;
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: color 0.3s ease, border-bottom 0.3s ease;
+
+        &:hover {
+          color: #00877a;
+          border-bottom: 2px solid #00877a;
+        }
+
+        &:focus {
+          outline: 2px solid #00a79d;
+          outline-offset: 2px;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .careers-intro {
+    padding: 6rem 1.5rem;
+    min-height: 350px;
+
+    .intro-content h1 {
+      font-size: 3rem;
+    }
+  }
+
+  .careers-culture,
+  .careers-positions,
+  .careers-benefits,
+  .careers-process,
+  .careers-contact {
+    padding: 3rem 1.5rem;
+
+    h2 {
+      font-size: 2.25rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .careers-intro {
+    padding: 4rem 1rem;
+
+    .intro-content {
+      h1 {
+        font-size: 2.5rem;
+      }
+      p {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  .careers-culture,
+  .careers-positions,
+  .careers-benefits,
+  .careers-process,
+  .careers-contact {
+    padding: 2rem 1rem;
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    .culture-grid,
+    .positions-grid,
+    .benefits-list,
+    .process-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+
+      .culture-card,
+      .position-card,
+      .benefit-item,
+      .process-card {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  .careers-contact .contact-content {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .careers-intro {
+    padding: 3rem 1rem;
+    min-height: 300px;
+
+    .intro-content h1 {
+      font-size: 2rem;
+    }
+  }
+
+  .careers-positions .positions-grid .position-card,
+  .careers-culture .culture-grid .culture-card,
+  .careers-process .process-grid .process-card {
+    padding: 1.5rem;
+  }
+
+  .careers-contact .contact-content form .form-group input,
+  .careers-contact .contact-content form .form-group textarea {
+    padding: 0.5rem;
+  }
+}

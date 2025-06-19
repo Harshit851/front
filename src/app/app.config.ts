@@ -18,12 +18,17 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AuthGuard } from './state/auth.guard';
 import { AdminGuard } from './state/admin.guard';
+import { AboutComponent } from './about/about.component';
+import { CareersComponent } from './careers/careers.component';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter([
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'products', component: ProductsComponent },
+      { path: 'about', component: AboutComponent },
+      { path: 'careers', component: CareersComponent },
       { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
       { path: 'admin', component: AdminDashboardComponent, canActivate: [AdminGuard] },
       { path: 'signin', component: SignInComponent },

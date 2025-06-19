@@ -1,0 +1,118 @@
+<section class="careers-intro" id="careers-intro" [class.visible]="introVisible">
+  <div class="intro-content">
+    <h1>Careers at E-Shop</h1>
+    <p>Build your future with a leader in innovative e-commerce solutions. Join us to make a global impact.</p>
+  </div>
+</section>
+
+<section class="careers-culture" id="careers-culture" [class.visible]="cultureVisible">
+  <h2>Our Culture</h2>
+  <div class="culture-grid">
+    <div class="culture-card" style="--card-index: 0;">
+      <h3>Collaboration</h3>
+      <p>We thrive on teamwork, fostering an inclusive environment for all.</p>
+    </div>
+    <div class="culture-card" style="--card-index: 1;">
+      <h3>Innovation</h3>
+      <p>Constantly pushing boundaries with cutting-edge technology.</p>
+    </div>
+    <div class="culture-card" style="--card-index: 2;">
+      <h3>Growth</h3>
+      <p>Opportunities for personal and professional development.</p>
+    </div>
+  </div>
+</section>
+
+<section class="careers-positions" id="careers-positions" [class.visible]="positionsVisible">
+  <h2>Open Positions</h2>
+  <div class="positions-grid">
+    <div class="position-card" style="--card-index: 0;">
+      <h3>Senior Software Engineer</h3>
+      <p>Develop scalable solutions. Location: Remote</p>
+      <p class="apply-link"><a href="#" (click)="showApplyForm('Senior Software Engineer', $event)">Apply Now</a></p>
+    </div>
+    <div class="position-card" style="--card-index: 1;">
+      <h3>Marketing Manager</h3>
+      <p>Drive global brand strategies. Location: New York</p>
+      <p class="apply-link"><a href="#" (click)="showApplyForm('Marketing Manager', $event)">Apply Now</a></p>
+    </div>
+    <div class="position-card" style="--card-index: 2;">
+      <h3>Customer Support Lead</h3>
+      <p>Lead a team to enhance customer experience. Location: London</p>
+      <p class="apply-link"><a href="#" (click)="showApplyForm('Customer Support Lead', $event)">Apply Now</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="careers-benefits" id="careers-benefits" [class.visible]="benefitsVisible">
+  <h2>Benefits</h2>
+  <div class="benefits-list">
+    <div class="benefit-item" style="--item-index: 0;">
+      <p><span>💻</span> Remote Work Options</p>
+    </div>
+    <div class="benefit-item" style="--item-index: 1;">
+      <p><span>🏥</span> Comprehensive Health Plans</p>
+    </div>
+    <div class="benefit-item" style="--item-index: 2;">
+      <p><span>🎓</span> Learning & Development</p>
+    </div>
+    <div class="benefit-item" style="--item-index: 3;">
+      <p><span>💰</span> Competitive Salary</p>
+    </div>
+  </div>
+</section>
+
+<section class="careers-process" id="careers-process" [class.visible]="processVisible">
+  <h2>Application Process</h2>
+  <div class="process-grid">
+    <div class="process-card" style="--card-index: 0;">
+      <h3>1. Apply</h3>
+      <p>Submit your application with resume and cover letter.</p>
+    </div>
+    <div class="process-card" style="--card-index: 1;">
+      <h3>2. Interview</h3>
+      <p>Participate in one or more interviews with our team.</p>
+    </div>
+    <div class="process-card" style="--card-index: 2;">
+      <h3>3. Offer</h3>
+      <p>Receive and review your job offer.</p>
+    </div>
+    <div class="process-card" style="--card-index: 3;">
+      <h3>4. Onboard</h3>
+      <p>Join our team and start your journey.</p>
+    </div>
+  </div>
+</section>
+
+<section class="careers-contact" id="careers-contact" [class.visible]="contactVisible">
+  <h2>Contact Us</h2>
+  <div class="contact-content" *ngIf="showForm">
+    <form #applyForm="ngForm" (ngSubmit)="onSubmit(applyForm)">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" ngModel required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" ngModel required>
+      </div>
+      <div class="form-group">
+        <label for="jobTitle">Job Title</label>
+        <input type="text" id="jobTitle" name="jobTitle" ngModel [value]="selectedJobTitle" readonly>
+      </div>
+      <div class="form-group">
+        <label for="resume">Upload Resume</label>
+        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" (change)="onFileChange($event)">
+      </div>
+      <div class="form-group">
+        <label for="message">Cover Letter</label>
+        <textarea id="message" name="message" ngModel rows="4"></textarea>
+      </div>
+      <button type="submit" [disabled]="!applyForm.valid || !resumeFile">Submit Application</button>
+    </form>
+    <p *ngIf="submitMessage" class="submit-message">{{ submitMessage }}</p>
+  </div>
+  <div class="contact-instructions" *ngIf="!showForm">
+    <p>Email us at <a href="mailto:careers@E-Shop.com">careersatE-Shop.com</a> or apply directly via a position above. We’re an equal opportunity employer.</p>
+  </div>
+</section>
