@@ -2,22 +2,27 @@ const axios = require('axios');
 
 const getProducts = async (req, res) => {
   try {
-    // 1. Get page and limit from query string
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const search = (req.query.search || '').toLowerCase();
 
-    // 2. Fetch all products from fake API
     const response = await axios.get('https://fakestoreapi.com/products');
-    const allProducts = response.data;
+    let allProducts = response.data;
 
-    // 3. Calculate start and end index for pagination
+    // ✅ Step 1: Apply search filtering
+    if (search) {
+      allProducts = allProducts.filter(product =>
+        product.title.toLowerCase().includes(search) ||
+        product.description?.toLowerCase().includes(search)
+      );
+    }
+
+    // Step 2: Paginate filtered results
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-
-    // 4. Slice the array for the requested page
     const paginatedProducts = allProducts.slice(startIndex, endIndex);
 
-    // 5. Send paginated response with metadata
+    // Step 3: Respond with metadata
     res.json({
       products: paginatedProducts,
       totalItems: allProducts.length,

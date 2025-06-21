@@ -8,11 +8,12 @@ import { AppState } from '../state/app.state';
 import { selectUser } from '../state/auth.selectors';
 import { selectCartItems } from '../state/cart.selectors';
 import { logout } from '../state/auth.actions';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SearchComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })

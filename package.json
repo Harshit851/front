@@ -2,7 +2,6 @@
   "name": "web",
   "version": "0.0.0",
   "scripts": {
-    
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "dev:all": "concurrently \"npm run start\" \"cd server && npm run dev\"",
@@ -12,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^19.2.14",
     "@angular/common": "^19.2.14",
     "@angular/compiler": "^19.2.0",
     "@angular/core": "^19.2.0",
@@ -22,7 +22,9 @@
     "@ngrx/effects": "^19.2.1",
     "@ngrx/store": "^19.2.1",
     "@ngrx/store-devtools": "^19.2.1",
+    "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
+    "socket.io-client": "^4.8.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

@@ -1,0 +1,54 @@
+<!-- 🔙 Back button -->
+<button class="back-button" routerLink="/products">← Back to Products</button>
+
+<!-- 🧭 Breadcrumbs (moved into *ngIf block to avoid async error) -->
+<ng-container *ngIf="product$ | async as product; else loading">
+  <nav class="breadcrumbs">
+    <a routerLink="/home">Home</a> /
+    <a routerLink="/products">Products</a> /
+    <span>{{ product.title }}</span>
+  </nav>
+
+  <!-- 🛍 Product Detail Layout -->
+  <div class="product-detail">
+    <div class="left-column">
+      <div class="thumbnails">
+        <img [src]="product.image" alt="thumb" *ngFor="let i of [1,2,3]" />
+      </div>
+      <div class="main-image">
+        <img [src]="product.image" alt="{{ product.title }}" />
+      </div>
+    </div>
+
+    <div class="right-column">
+      <h1>{{ product.title }}</h1>
+
+      <div class="price-block">
+        <span class="price">{{ product.price | currency }}</span>
+        <span class="original-price">{{ (product.price * 1.8) | currency }}</span>
+        <span class="discount">74% off</span>
+      </div>
+
+      <div class="urgency">Hurry, Only a few left!</div>
+
+      <div class="offers">
+        <h4>Available offers</h4>
+        <ul>
+          <li>💳 5% Cashback on Credit Card</li>
+          <li>🎁 Flat ₹150 off on UPI Payments</li>
+          <li>💰 No Cost EMI on orders above ₹2999</li>
+        </ul>
+      </div>
+
+      <div class="actions">
+        <button class="add-to-cart" (click)="addProductToCart(product)">🛒 Add to Cart</button>
+<button class="buy-now" (click)="buyNow(product)">⚡ Buy Now</button>
+
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <p>Loading product...</p>
+</ng-template>

@@ -1,4 +1,20 @@
-<div class="search-bar">
-  <input type="text" placeholder="Search products..." />
-  <button>Search</button>
-</div>
+<form (ngSubmit)="onSubmit()" class="search-form" autocomplete="off">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="onInputChange()"
+    name="search"
+    placeholder="Search products..."
+    aria-label="Search products"
+  />
+  <button type="submit" aria-label="Search">🔍</button>
+</form>
+
+<!-- 🔍 Live search preview -->
+<ul class="search-preview" *ngIf="previewResults.length > 0">
+  <li *ngFor="let item of previewResults" (click)="selectResult(item.title)">
+    <img [src]="item.image" alt="{{ item.title }}" />
+    <span>{{ item.title }}</span>
+    <span class="price">{{ item.price | currency }}</span>
+  </li>
+</ul>

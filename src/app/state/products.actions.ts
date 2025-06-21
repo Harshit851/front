@@ -3,7 +3,7 @@ import { Product } from './app.state';
 
 export const loadProducts = createAction(
   '[Products] Load Products',
-  props<{ page: number }>() // ✅ Accept page number
+  props<{ page: number ; search?: string}>() // ✅ Accept page number
 );
 
 export const loadProductsSuccess = createAction(
@@ -19,3 +19,5 @@ export const loadProductsFailure = createAction(
   '[Products] Load Products Failure',
   props<{ error: string }>()
 );
+
+

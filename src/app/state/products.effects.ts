@@ -17,9 +17,13 @@ export class ProductsEffects {
   loadProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadProducts),
-      mergeMap(({ page }) =>
-        this.http.get<any>(`/api/products?page=${page}&limit=10`).pipe(
+      mergeMap(({ page, search }) => {
+        let url = `/api/products?page=${page}&limit=10`;
+        if (search && search.trim()) {
+          url += `&search=${encodeURIComponent(search.trim())}`;
+        }
 
+        return this.http.get<any>(url).pipe(
           map(response =>
             loadProductsSuccess({
               products: response.products.map((item: any) => ({
@@ -32,12 +36,11 @@ export class ProductsEffects {
               totalPages: response.totalPages
             })
           ),
-
           catchError(() =>
             of(loadProductsFailure({ error: 'Failed to load products' }))
           )
-        )
-      )
+        );
+      })
     )
   );
 }
