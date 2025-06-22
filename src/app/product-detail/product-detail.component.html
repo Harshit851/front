@@ -1,7 +1,7 @@
-<!-- 🔙 Back button -->
+
 <button class="back-button" routerLink="/products">← Back to Products</button>
 
-<!-- 🧭 Breadcrumbs (moved into *ngIf block to avoid async error) -->
+
 <ng-container *ngIf="product$ | async as product; else loading">
   <nav class="breadcrumbs">
     <a routerLink="/home">Home</a> /
@@ -13,7 +13,7 @@
   <div class="product-detail">
     <div class="left-column">
       <div class="thumbnails">
-        <img [src]="product.image" alt="thumb" *ngFor="let i of [1,2,3]" />
+        
       </div>
       <div class="main-image">
         <img [src]="product.image" alt="{{ product.title }}" />
@@ -40,6 +40,9 @@
         </ul>
       </div>
 
+      <div>
+        <span class="description">{{ product.description }}</span>
+      </div>
       <div class="actions">
         <button class="add-to-cart" (click)="addProductToCart(product)">🛒 Add to Cart</button>
 <button class="buy-now" (click)="buyNow(product)">⚡ Buy Now</button>

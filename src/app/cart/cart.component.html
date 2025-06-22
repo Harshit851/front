@@ -9,7 +9,6 @@
             <img [src]="item.image" [alt]="item.title" />
             <div class="item-info">
               <h3>{{ item.title }}</h3>
-              <p *ngIf="item.description">{{ item.description }}</p>
             </div>
             <div class="item-qty-price">
               <div class="price">{{ item.price | currency }}</div>

@@ -1,4 +1,3 @@
-// src/app/products/products.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -24,7 +23,7 @@ export class ProductsComponent implements OnInit {
 
   currentPage = 1;
   totalPages = 1;
-  searchTerm: string = ''; // ✅ store the query param
+  searchTerm: string = ''; // ✅ Store current search
 
   constructor(
     private store: Store<AppState>,
@@ -34,19 +33,15 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.products$ = this.store.select(selectProducts);
 
-    // ✅ Read query param and dispatch product load
+    // ✅ On load → read search term if any
     this.route.queryParams.subscribe(params => {
       this.searchTerm = params['search'] || '';
       this.store.dispatch(loadProducts({ page: this.currentPage, search: this.searchTerm }));
     });
 
-    // Get logged-in user's email
     this.store.select(state => state.auth.user?.email)
-      .subscribe(email => {
-        this.userEmail = email || '';
-      });
+      .subscribe(email => this.userEmail = email || '');
 
-    // Pagination data
     this.store.select((state: any) => state.products.currentPage)
       .subscribe(page => this.currentPage = page || 1);
 

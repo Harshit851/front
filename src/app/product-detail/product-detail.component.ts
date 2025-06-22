@@ -1,14 +1,15 @@
-import { Component } from '@angular/core'; 
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, Product } from '../state/app.state';
 import { selectProducts } from '../state/products.selectors';
-import { map } from 'rxjs/operators';
+import { map, switchMap, of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { addToCart } from '../state/cart.actions';
 import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-detail',
@@ -21,22 +22,31 @@ export class ProductDetailComponent {
   product$!: Observable<Product | undefined>;
   related$!: Observable<Product[]>;
   isProcessing = false;
+  private productId: number;
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private http: HttpClient
   ) {
-    const productId = +this.route.snapshot.paramMap.get('id')!;
+    this.productId = +this.route.snapshot.paramMap.get('id')!;
 
+    // ✅ First try to load from store, fallback to REST if not found
     this.product$ = this.store.select(selectProducts).pipe(
-      map(products => products.find(p => p.id === productId))
+      switchMap(products => {
+        const found = products.find(p => p.id === this.productId);
+        return found
+          ? of(found)
+          : this.http.get<Product>(`https://fakestoreapi.com/products/${this.productId}`);
+      })
     );
 
+    // ✅ Related products from store
     this.related$ = this.store.select(selectProducts).pipe(
       map(products =>
-        products.filter(p => p.id !== productId).slice(0, 4)
+        products.filter(p => p.id !== this.productId).slice(0, 4)
       )
     );
   }
@@ -47,7 +57,6 @@ export class ProductDetailComponent {
       : '';
 
     this.isProcessing = true;
-
     this.store.dispatch(addToCart({ product, userEmail: email }));
     this.toastr.success('Product added to cart!');
 

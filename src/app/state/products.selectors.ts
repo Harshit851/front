@@ -1,19 +1,23 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from './app.state';
+import { ProductsState } from './products.reducer';
 
-export const selectProductsState = (state: AppState) => state.products;
+// 🌟 Step 1: Feature slice selector
+export const selectProductsState = (state: AppState): ProductsState => state.products;
+
+// 🌟 Step 2: Individual selectors from ProductsState
 
 export const selectProducts = createSelector(
   selectProductsState,
-  (state) => state.products // ✅ Now accessing state.products instead of just state
+  (state: ProductsState) => state.products
 );
 
 export const selectCurrentPage = createSelector(
   selectProductsState,
-  (state) => state.currentPage
+  (state: ProductsState) => state.currentPage
 );
 
 export const selectTotalPages = createSelector(
   selectProductsState,
-  (state) => state.totalPages
+  (state: ProductsState) => state.totalPages
 );

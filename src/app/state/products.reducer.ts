@@ -22,6 +22,7 @@ export const initialState: ProductsState = {
 export const productsReducer = createReducer(
   initialState,
 
+  // ✅ Handle product success (REST or GraphQL)
   on(loadProductsSuccess, (state, { products, currentPage, totalPages }) => ({
     ...state,
     products,
@@ -29,8 +30,11 @@ export const productsReducer = createReducer(
     totalPages
   })),
 
+  // ✅ Reset product list on failure
   on(loadProductsFailure, state => ({
     ...state,
-    products: []
+    products: [],
+    currentPage: 1,
+    totalPages: 1
   }))
 );
